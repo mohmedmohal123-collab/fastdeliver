@@ -1,21 +1,21 @@
 name: Build APK
 
 on:
-  workflow_dispatch: # هذا السطر يسمح لك بتشغيل البناء يدوياً بضغطة زر
+  workflow_dispatch: 
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Install Flutter
+          
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
@@ -26,8 +26,8 @@ jobs:
       - name: Build Debug APK
         run: flutter build apk --debug
 
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload APK
+        uses: actions/upload-artifact@v4 # هنا قمنا بتغيير v3 إلى v4
         with:
-          name: app-release
+          name: app-debug-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
