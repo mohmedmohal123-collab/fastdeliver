@@ -1,0 +1,499 @@
+type UserPublic = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   id: UserId;
+   isActive: bool;
+   name: text;
+   phone: text;
+ };
+type UserId = nat;
+type Timestamp = int;
+type StatusCount = 
+ record {
+   count: nat;
+   status: OrderStatus;
+ };
+type RegisterRequest = 
+ record {
+   email: text;
+   name: text;
+   password: text;
+   phone: text;
+ };
+type ProductPublic = 
+ record {
+   category: text;
+   companyId: CompanyId;
+   createdAt: Timestamp;
+   description: text;
+   descriptionAr: text;
+   id: ProductId;
+   imageUrl: text;
+   isActive: bool;
+   name: text;
+   nameAr: text;
+   price: float64;
+ };
+type ProductInput = 
+ record {
+   category: text;
+   companyId: CompanyId;
+   description: text;
+   descriptionAr: text;
+   imageUrl: text;
+   isActive: bool;
+   name: text;
+   nameAr: text;
+   price: float64;
+ };
+type ProductId = nat;
+type PaymentStatus = 
+ variant {
+   Failed;
+   Pending;
+   Processing;
+   Refunded;
+   Success;
+ };
+type PaymentPublic = 
+ record {
+   amount: float64;
+   errorMessage: opt text;
+   id: nat;
+   method: PaymentMethod;
+   orderId: nat;
+   phoneNumber: opt text;
+   status: PaymentStatus;
+   timestamp: int;
+   transactionId: opt text;
+ };
+type PaymentMethodSettingPublic = 
+ record {
+   isEnabled: bool;
+   method: PaymentMethod;
+ };
+type PaymentMethodCount = 
+ record {
+   count: nat;
+   paymentMethod: PaymentMethod;
+ };
+type PaymentMethod = 
+ variant {
+   BankVisa;
+   CashOnDelivery;
+   InstaPay;
+   VodafoneCash;
+ };
+type OrderStatus = 
+ variant {
+   Accepted;
+   Cancelled;
+   Delivered;
+   InTransit;
+   Pending;
+   PickedUp;
+ };
+type OrderSearchFilter = 
+ record {
+   fromDate: opt Timestamp;
+   status: opt OrderStatus;
+   toDate: opt Timestamp;
+ };
+type OrderPublic = 
+ record {
+   courierId: opt nat;
+   createdAt: Timestamp;
+   dropoffAddress: text;
+   estimatedPrice: float64;
+   id: OrderId;
+   itemDescription: text;
+   paymentId: opt nat;
+   paymentMethod: PaymentMethod;
+   paymentStatus: PaymentStatus;
+   pickupAddress: text;
+   status: OrderStatus;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type OrderId = nat;
+type Order = 
+ record {
+   courierId: opt nat;
+   createdAt: Timestamp;
+   dropoffAddress: text;
+   estimatedPrice: float64;
+   id: OrderId;
+   itemDescription: text;
+   paymentId: opt nat;
+   paymentMethod: PaymentMethod;
+   paymentStatus: PaymentStatus;
+   pickupAddress: text;
+   status: OrderStatus;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type OfferPublic = 
+ record {
+   createdAt: Timestamp;
+   description: text;
+   descriptionAr: text;
+   discount: float64;
+   id: OfferId;
+   isActive: bool;
+   title: text;
+   titleAr: text;
+   validUntil: Timestamp;
+ };
+type OfferInput = 
+ record {
+   description: text;
+   descriptionAr: text;
+   discount: float64;
+   isActive: bool;
+   title: text;
+   titleAr: text;
+   validUntil: Timestamp;
+ };
+type OfferId = nat;
+type NotificationType = 
+ variant {
+   CourierArrived;
+   OrderAccepted;
+   OrderCancelled;
+   OrderCreated;
+   OrderDelivered;
+   OrderInTransit;
+   PaymentFailed;
+   PaymentProcessed;
+ };
+type NotificationPublic = 
+ record {
+   id: nat;
+   isRead: bool;
+   message: text;
+   messageAr: text;
+   notifType: NotificationType;
+   orderId: opt nat;
+   timestamp: int;
+   userId: nat;
+ };
+type LoginResult = 
+ variant {
+   err: text;
+   ok: record {
+         token: text;
+         user: UserPublic;
+       };
+ };
+type DashboardStats = 
+ record {
+   ordersByPaymentMethod: vec PaymentMethodCount;
+   ordersByStatus: vec StatusCount;
+   ordersLast7Days: vec DailyOrderCount;
+   totalOrders: nat;
+   totalUsers: nat;
+ };
+type DailyOrderCount = 
+ record {
+   count: nat;
+   date: text;
+ };
+type CreateOrderRequest = 
+ record {
+   dropoffAddress: text;
+   estimatedPrice: float64;
+   itemDescription: text;
+   paymentMethod: PaymentMethod;
+   pickupAddress: text;
+ };
+type CourierStats = 
+ record {
+   averageRating: float64;
+   completedThisMonth: nat;
+   earningsThisMonth: float64;
+   totalDeliveries: nat;
+   totalEarnings: float64;
+ };
+type CourierPublic = 
+ record {
+   id: nat;
+   isActive: bool;
+   isAvailable: bool;
+   joinedAt: Timestamp;
+   name: text;
+   phone: text;
+   rating: float64;
+   totalDeliveries: nat;
+   userId: UserId;
+   vehicleType: text;
+ };
+type CourierLoginResult = 
+ variant {
+   inactive;
+   ok: record {
+         courier: CourierPublic;
+         token: text;
+       };
+   wrongCredentials;
+ };
+type CompanyPublic = 
+ record {
+   createdAt: Timestamp;
+   description: text;
+   descriptionAr: text;
+   id: CompanyId;
+   isActive: bool;
+   logoUrl: text;
+   name: text;
+   nameAr: text;
+ };
+type CompanyInput = 
+ record {
+   description: text;
+   descriptionAr: text;
+   isActive: bool;
+   logoUrl: text;
+   name: text;
+   nameAr: text;
+ };
+type CompanyId = nat;
+type BroadcastSegment = 
+ variant {
+   ActiveUsers;
+   All;
+   PendingOrders;
+ };
+type AssignOrderResult = 
+ variant {
+   alreadyAssigned;
+   err: text;
+   notFound;
+   ok: Order;
+   unauthorized;
+ };
+service : {
+  acceptOrder: (token: text, orderId: nat) -> (AssignOrderResult);
+  adminCreateCompany: (token: text, input: CompanyInput) ->
+   (variant {
+      err: text;
+      ok: CompanyPublic;
+    });
+  adminCreateOffer: (token: text, input: OfferInput) ->
+   (variant {
+      err: text;
+      ok: OfferPublic;
+    });
+  adminCreateProduct: (token: text, input: ProductInput) ->
+   (variant {
+      err: text;
+      ok: ProductPublic;
+    });
+  adminDeleteCompany: (token: text, id: CompanyId) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  adminDeleteOffer: (token: text, id: OfferId) -> (variant {
+                                                     err: text;
+                                                     ok;
+                                                   });
+  adminDeleteProduct: (token: text, id: ProductId) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  adminLoginCall: (email: text, password: text) ->
+   (variant {
+      err: text;
+      ok: text;
+    });
+  adminSendBroadcastNotification: (token: text, message: text, messageAr:
+   text, segment: BroadcastSegment) -> (variant {
+                                          err: text;
+                                          ok: nat;
+                                        });
+  adminSetPaymentMethodEnabled: (token: text, method: PaymentMethod, enabled:
+   bool) -> (variant {
+               err: text;
+               ok;
+             });
+  adminUpdateCompany: (token: text, id: CompanyId, input: CompanyInput) ->
+   (variant {
+      err: text;
+      ok: CompanyPublic;
+    });
+  adminUpdateOffer: (token: text, id: OfferId, input: OfferInput) ->
+   (variant {
+      err: text;
+      ok: OfferPublic;
+    });
+  adminUpdateProduct: (token: text, id: ProductId, input: ProductInput) ->
+   (variant {
+      err: text;
+      ok: ProductPublic;
+    });
+  cancelOrder: (token: text, orderId: nat) ->
+   (variant {
+      err: text;
+      ok: OrderPublic;
+    });
+  confirmDelivery: (token: text, orderId: nat, lat: float64, lng: float64) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  confirmPickup: (token: text, orderId: nat, lat: float64, lng: float64) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  courierLogin: (email: text, password: text) -> (CourierLoginResult);
+  createNotification: (userId: nat, notifType: NotificationType, orderId:
+   opt nat, message: text, messageAr: text) -> () oneway;
+  createOrder: (token: text, req: CreateOrderRequest) ->
+   (variant {
+      err: text;
+      ok: OrderPublic;
+    });
+  getActiveCompanies: () -> (vec CompanyPublic) query;
+  getActiveOffers: () -> (vec OfferPublic) query;
+  getActiveProducts: () -> (vec ProductPublic) query;
+  getAllOrdersAdmin: (token: text) ->
+   (variant {
+      err: text;
+      ok: vec OrderPublic;
+    }) query;
+  getAllPaymentMethodSettings: () -> (vec PaymentMethodSettingPublic) query;
+  getAllUsersAdmin: (token: text) ->
+   (variant {
+      err: text;
+      ok: vec UserPublic;
+    }) query;
+  getCompany: (id: CompanyId) -> (opt CompanyPublic) query;
+  getCourierLocation: (orderId: nat) ->
+   (opt
+     record {
+       courierId: nat;
+       lat: float64;
+       lng: float64;
+       orderId: nat;
+       timestamp: int;
+     }) query;
+  getCourierProfile: (token: text) -> (opt CourierPublic) query;
+  getCourierStats: (token: text) -> (CourierStats) query;
+  getDashboardStats: (token: text) ->
+   (variant {
+      err: text;
+      ok: DashboardStats;
+    }) query;
+  getEnabledPaymentMethods: () -> (vec PaymentMethod) query;
+  getMyCourierOrders: (token: text) -> (vec OrderPublic) query;
+  getMyNotifications: (token: text) -> (vec NotificationPublic) query;
+  getMyOrders: (token: text) ->
+   (variant {
+      err: text;
+      ok: vec OrderPublic;
+    }) query;
+  getMyProfile: (token: text) -> (opt UserPublic) query;
+  getOffer: (id: OfferId) -> (opt OfferPublic) query;
+  getOrder: (token: text, orderId: nat) -> (opt OrderPublic) query;
+  getOrderPayments: (token: text, orderId: nat) -> (vec PaymentPublic) query;
+  getOrdersByPaymentMethodAdmin: (token: text) ->
+   (variant {
+      err: text;
+      ok: vec PaymentMethodCount;
+    }) query;
+  getOrdersByStatusAdmin: (token: text) ->
+   (variant {
+      err: text;
+      ok: vec StatusCount;
+    }) query;
+  getOrdersLast7DaysAdmin: (token: text) ->
+   (variant {
+      err: text;
+      ok: vec DailyOrderCount;
+    }) query;
+  getPaymentStatus: (token: text, paymentId: nat) ->
+   (opt PaymentPublic) query;
+  getPendingOrdersForCourier: (token: text) -> (vec OrderPublic) query;
+  getProduct: (id: ProductId) -> (opt ProductPublic) query;
+  getTotalOrdersAdmin: (token: text) -> (variant {
+                                           err: text;
+                                           ok: nat;
+                                         }) query;
+  getTotalUsersAdmin: (token: text) -> (variant {
+                                          err: text;
+                                          ok: nat;
+                                        }) query;
+  getUnreadNotificationCount: (token: text) -> (nat) query;
+  getUserByIdAdmin: (token: text, userId: nat) ->
+   (variant {
+      err: text;
+      ok: opt UserPublic;
+    }) query;
+  initiatePayment: (token: text, orderId: nat, method: PaymentMethod,
+   phoneNumber: opt text) -> (variant {
+                                err: text;
+                                ok: PaymentPublic;
+                              });
+  isAdmin: (token: text) -> (bool) query;
+  listCompanies: (activeOnly: bool) -> (vec CompanyPublic) query;
+  listOffers: (activeOnly: bool) -> (vec OfferPublic) query;
+  listProducts: (activeOnly: bool) -> (vec ProductPublic) query;
+  login: (email: text, password: text) -> (LoginResult);
+  logout: (token: text) -> ();
+  markAllNotificationsRead: (token: text) -> (variant {
+                                                err: text;
+                                                ok;
+                                              });
+  markNotificationRead: (token: text, notifId: nat) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  register: (req: RegisterRequest) -> (variant {
+                                         err: text;
+                                         ok: UserPublic;
+                                       });
+  registerCourier: (name: text, phone: text, email: text, password: text,
+   vehicleType: text) -> (variant {
+                            err: text;
+                            ok: CourierPublic;
+                          });
+  searchOrders: (token: text, filter: OrderSearchFilter) ->
+   (variant {
+      err: text;
+      ok: vec OrderPublic;
+    }) query;
+  searchUsersAdmin: (token: text, searchQuery: text) ->
+   (variant {
+      err: text;
+      ok: vec UserPublic;
+    }) query;
+  setUserActiveAdmin: (token: text, userId: nat, isActive: bool) ->
+   (variant {
+      err: text;
+      ok: UserPublic;
+    });
+  updateCourierLocation: (token: text, orderId: nat, lat: float64, lng:
+   float64) -> (variant {
+                  err: text;
+                  ok;
+                });
+  updateMyProfile: (token: text, name: text, phone: text) ->
+   (variant {
+      err: text;
+      ok: UserPublic;
+    });
+  updateOrderStatus: (token: text, orderId: nat, status: OrderStatus) ->
+   (variant {
+      err: text;
+      ok: OrderPublic;
+    });
+  updatePaymentStatus: (paymentId: nat, status: PaymentStatus, transactionId:
+   opt text) -> (variant {
+                   err: text;
+                   ok;
+                 });
+}

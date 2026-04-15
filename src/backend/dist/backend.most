@@ -1,0 +1,301 @@
+// Version: 1.0.0
+type CompanyId__377627195 = Nat;
+type Company__766466414 =
+  {
+    createdAt : Timestamp__767840787;
+    var description : Text;
+    var descriptionAr : Text;
+    id : CompanyId__377627195;
+    var isActive : Bool;
+    var logoUrl : Text;
+    var name : Text;
+    var nameAr : Text
+  };
+type CourierLocation__58522387 =
+  {
+    courierId : Nat;
+    var lat : Float;
+    var lng : Float;
+    orderId : Nat;
+    var timestamp : Int
+  };
+type Courier__731928847 =
+  {
+    id : Nat;
+    isActive : Bool;
+    var isAvailable : Bool;
+    joinedAt : Timestamp__371771574;
+    name : Text;
+    phone : Text;
+    var rating : Float;
+    var totalDeliveries : Nat;
+    userId : UserId__381945751;
+    vehicleType : Text
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type HttpHeader__950506635 = {name : Text; value : Text};
+type HttpRequest__860563697 =
+  {
+    body : ?Blob;
+    headers : [HttpHeader__950506635];
+    max_response_bytes : ?Nat64;
+    method : {#get; #head; #post};
+    transform :
+      ?{
+         context : Blob;
+         function :
+           shared query {context : Blob; response : HttpResponse__164242434} ->
+             async HttpResponse__164242434
+       };
+    url : Text
+  };
+type HttpResponse__164242434 =
+  {body : Blob; headers : [HttpHeader__950506635]; status : Nat};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type NotificationRecord__70134138 =
+  {
+    id : Nat;
+    var isRead : Bool;
+    message : Text;
+    messageAr : Text;
+    notifType : NotificationType__338939744;
+    orderId : ?Nat;
+    timestamp : Int;
+    userId : Nat
+  };
+type NotificationType__338939744 =
+  {
+    #CourierArrived;
+    #OrderAccepted;
+    #OrderCancelled;
+    #OrderCreated;
+    #OrderDelivered;
+    #OrderInTransit;
+    #PaymentFailed;
+    #PaymentProcessed
+  };
+type OfferId__880972555 = Nat;
+type Offer__226068378 =
+  {
+    createdAt : Timestamp__767840787;
+    var description : Text;
+    var descriptionAr : Text;
+    var discount : Float;
+    id : OfferId__880972555;
+    var isActive : Bool;
+    var title : Text;
+    var titleAr : Text;
+    var validUntil : Timestamp__767840787
+  };
+type OrderId__197865225 = Nat;
+type OrderId__521176343 = OrderId__197865225;
+type OrderStatus__272730104 = OrderStatus__393009242;
+type OrderStatus__393009242 =
+  {#Accepted; #Cancelled; #Delivered; #InTransit; #Pending; #PickedUp};
+type Order__141779993 =
+  {
+    var courierId : ?Nat;
+    createdAt : Timestamp__813860109;
+    var dropoffAddress : Text;
+    var estimatedPrice : Float;
+    id : OrderId__521176343;
+    var itemDescription : Text;
+    var paymentId : ?Nat;
+    var paymentMethod : PaymentMethod__972042942;
+    var paymentStatus : PaymentStatus__889961532;
+    var pickupAddress : Text;
+    var status : OrderStatus__272730104;
+    var updatedAt : Timestamp__813860109;
+    userId : UserId__41638867
+  };
+type PaymentMethodSetting__258375519 =
+  {var isEnabled : Bool; method : PaymentMethod__522451436};
+type PaymentMethod__46913440 =
+  {#BankVisa; #CashOnDelivery; #InstaPay; #VodafoneCash};
+type PaymentMethod__522451436 = PaymentMethod__46913440;
+type PaymentMethod__972042942 = PaymentMethod__46913440;
+type PaymentRecord__1044270815 =
+  {
+    amount : Float;
+    var errorMessage : ?Text;
+    id : Nat;
+    method : PaymentMethod__46913440;
+    orderId : Nat;
+    phoneNumber : ?Text;
+    var status : PaymentStatus__1050999476;
+    timestamp : Int;
+    var transactionId : ?Text
+  };
+type PaymentStatus__1050999476 =
+  {#Failed; #Pending; #Processing; #Refunded; #Success};
+type PaymentStatus__889961532 = PaymentStatus__1050999476;
+type ProductId__211856257 = Nat;
+type Product__69455669 =
+  {
+    var category : Text;
+    var companyId : CompanyId__377627195;
+    createdAt : Timestamp__767840787;
+    var description : Text;
+    var descriptionAr : Text;
+    id : ProductId__211856257;
+    var imageUrl : Text;
+    var isActive : Bool;
+    var name : Text;
+    var nameAr : Text;
+    var price : Float
+  };
+type Session__71599859 =
+  {
+    createdAt : Timestamp__608627923;
+    token : Text;
+    userId : UserId__911210446
+  };
+type Timestamp__301639476 = Int;
+type Timestamp__371771574 = Timestamp__813860109;
+type Timestamp__608627923 = Timestamp__301639476;
+type Timestamp__767840787 = Timestamp__301639476;
+type Timestamp__813860109 = Timestamp__301639476;
+type UserId__158757552 = Nat;
+type UserId__381945751 = UserId__41638867;
+type UserId__41638867 = UserId__158757552;
+type UserId__911210446 = UserId__158757552;
+type User__455962502 =
+  {
+    createdAt : Timestamp__608627923;
+    var email : Text;
+    id : UserId__911210446;
+    var isActive : Bool;
+    var name : Text;
+    var passwordHash : Text;
+    var phone : Text
+  };
+actor {
+  stable adminSessions :
+    {var root : Node__46230540<Text, Bool>; var size : Nat__490723111};
+  stable catalogOffers :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Offer__226068378]];
+      var elementIndex : Nat__490723111
+    };
+  stable companies :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Company__766466414]];
+      var elementIndex : Nat__490723111
+    };
+  stable courierLocations :
+    {
+      var root : Node__46230540<Nat, CourierLocation__58522387>;
+      var size : Nat__490723111
+    };
+  stable courierSessions :
+    {var root : Node__46230540<Text, Nat>; var size : Nat__490723111};
+  stable couriers :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Courier__731928847]];
+      var elementIndex : Nat__490723111
+    };
+  stable management :
+    actor {
+      http_request :
+        shared HttpRequest__860563697 -> async HttpResponse__164242434
+    };
+  stable nextCompanyIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextCourierIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextNotifIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextOfferIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextOrderIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextPaymentIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextProductIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextUserIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    };
+  stable notifications :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?NotificationRecord__70134138]];
+      var elementIndex : Nat__490723111
+    };
+  stable orders :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Order__141779993]];
+      var elementIndex : Nat__490723111
+    };
+  stable paymentSettings :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?PaymentMethodSetting__258375519]];
+      var elementIndex : Nat__490723111
+    };
+  stable payments :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?PaymentRecord__1044270815]];
+      var elementIndex : Nat__490723111
+    };
+  stable products :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Product__69455669]];
+      var elementIndex : Nat__490723111
+    };
+  stable sessions :
+    {
+      var root : Node__46230540<Text, Session__71599859>;
+      var size : Nat__490723111
+    };
+  stable users :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?User__455962502]];
+      var elementIndex : Nat__490723111
+    }
+};

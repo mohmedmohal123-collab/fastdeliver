@@ -1,0 +1,28 @@
+{
+  "overview": "FastDeliver is a comprehensive Egyptian delivery app with real image uploads for products and companies, a user-facing browse page for exploring offers and companies, and offline browsing support. Features full admin panel, payment gateways (Vodafone Cash, InstaPay, Visa, Cash), live GPS tracking, courier interface, and bilingual AR/EN support.",
+  "features": [
+    "Real image uploads for products and company logos via file picker",
+    "User browse page with products, companies, and active offers",
+    "Offline browsing for catalog/offers — order/payment/maps require internet",
+    "Admin panel with full product/company/offer management",
+    "Egyptian payment gateways: Vodafone Cash, InstaPay, Visa, Cash on Delivery",
+    "Live GPS tracking with Leaflet maps",
+    "Courier interface for order acceptance and delivery confirmation",
+    "In-app notifications and broadcast messaging",
+    "Bilingual Arabic/English with dark/light mode"
+  ],
+  "category": "productivity",
+  "tags": [
+    "delivery",
+    "logistics",
+    "egypt",
+    "arabic",
+    "bilingual",
+    "admin",
+    "courier",
+    "payments",
+    "pwa",
+    "offline"
+  ],
+  "last_updated": "2026-04-15T21:27:33.366Z"
+}

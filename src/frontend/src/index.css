@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Space Grotesk";
+    --font-body: "DM Sans";
+    --font-mono: "JetBrains Mono";
+    --radius: 0.625rem;
+
+    --background: 0.98 0 0;
+    --foreground: 0.15 0 0;
+    --card: 0.96 0 0;
+    --card-foreground: 0.15 0 0;
+    --popover: 0.95 0 0;
+    --popover-foreground: 0.15 0 0;
+
+    --primary: 0.65 0.25 35;
+    --primary-foreground: 0.98 0 0;
+
+    --secondary: 0.22 0.08 265;
+    --secondary-foreground: 0.92 0 0;
+    --muted: 0.88 0 0;
+    --muted-foreground: 0.45 0 0;
+
+    --accent: 0.72 0.18 200;
+    --accent-foreground: 0.15 0 0;
+
+    --gold: 0.68 0.22 85;
+    --gold-foreground: 0.15 0 0;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0 0;
+
+    --border: 0.92 0 0;
+    --input: 0.94 0 0;
+    --ring: 0.65 0.25 35;
+
+    --chart-1: 0.65 0.25 35;
+    --chart-2: 0.72 0.18 200;
+    --chart-3: 0.22 0.08 265;
+    --chart-4: 0.6 0.2 100;
+    --chart-5: 0.55 0.18 20;
+
+    --sidebar: 0.96 0 0;
+    --sidebar-foreground: 0.15 0 0;
+    --sidebar-primary: 0.65 0.25 35;
+    --sidebar-primary-foreground: 0.98 0 0;
+    --sidebar-accent: 0.88 0 0;
+    --sidebar-accent-foreground: 0.25 0 0;
+    --sidebar-border: 0.92 0 0;
+    --sidebar-ring: 0.65 0.25 35;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.65 0.25 35),
+      oklch(0.72 0.18 200)
+    );
+    --gradient-warm: linear-gradient(
+      135deg,
+      oklch(0.65 0.25 35),
+      oklch(0.68 0.22 85)
+    );
+    --gradient-subtle: linear-gradient(135deg, oklch(0.96 0 0), oklch(0.94 0 0));
+    --gradient-splash: linear-gradient(
+      180deg,
+      oklch(0.09 0 0) 0%,
+      oklch(0.14 0.02 255) 50%,
+      oklch(0.11 0 0) 100%
+    );
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-subtle: 0 1px 3px 0 oklch(0 0 0 / 0.1), 0 1px 2px -1px
+      oklch(0 0 0 / 0.1);
+    --shadow-card: 0 4px 16px 0 oklch(0 0 0 / 0.08);
+    --shadow-elevated: 0 10px 25px -5px oklch(0.65 0.25 35 / 0.2), 0 4px 10px
+      -2px oklch(0 0 0 / 0.15);
+  }
+
+  .dark {
+    --background: 0.11 0 0;
+    --foreground: 0.95 0 0;
+    --card: 0.16 0 0;
+    --card-foreground: 0.93 0 0;
+    --popover: 0.2 0 0;
+    --popover-foreground: 0.93 0 0;
+
+    --primary: 0.7 0.28 35;
+    --primary-foreground: 0.11 0 0;
+
+    --secondary: 0.35 0.1 265;
+    --secondary-foreground: 0.88 0 0;
+    --muted: 0.25 0 0;
+    --muted-foreground: 0.58 0 0;
+
+    --accent: 0.78 0.2 200;
+    --accent-foreground: 0.11 0 0;
+
+    --gold: 0.74 0.25 85;
+    --gold-foreground: 0.11 0 0;
+
+    --destructive: 0.65 0.25 25;
+    --destructive-foreground: 0.11 0 0;
+
+    --border: 0.24 0 0;
+    --input: 0.2 0 0;
+    --ring: 0.7 0.28 35;
+
+    --chart-1: 0.7 0.28 35;
+    --chart-2: 0.78 0.2 200;
+    --chart-3: 0.35 0.1 265;
+    --chart-4: 0.68 0.22 100;
+    --chart-5: 0.65 0.25 25;
+
+    --sidebar: 0.14 0 0;
+    --sidebar-foreground: 0.95 0 0;
+    --sidebar-primary: 0.7 0.28 35;
+    --sidebar-primary-foreground: 0.11 0 0;
+    --sidebar-accent: 0.25 0 0;
+    --sidebar-accent-foreground: 0.85 0 0;
+    --sidebar-border: 0.22 0 0;
+    --sidebar-ring: 0.7 0.28 35;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.7 0.28 35),
+      oklch(0.78 0.2 200)
+    );
+    --gradient-warm: linear-gradient(
+      135deg,
+      oklch(0.7 0.28 35),
+      oklch(0.74 0.25 85)
+    );
+    --gradient-subtle: linear-gradient(135deg, oklch(0.16 0 0), oklch(0.2 0 0));
+    --gradient-splash: linear-gradient(
+      180deg,
+      oklch(0.09 0 0) 0%,
+      oklch(0.14 0.02 255) 50%,
+      oklch(0.11 0 0) 100%
+    );
+    --shadow-subtle: 0 1px 3px 0 oklch(0 0 0 / 0.3), 0 1px 2px -1px
+      oklch(0 0 0 / 0.3);
+    --shadow-card: 0 4px 16px 0 oklch(0 0 0 / 0.25);
+    --shadow-elevated: 0 10px 25px -5px oklch(0.7 0.28 35 / 0.3), 0 4px 10px
+      -2px oklch(0 0 0 / 0.4);
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/assets/fonts/DMSans.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-warm {
+    background: var(--gradient-warm);
+  }
+
+  .gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+
+  .gradient-splash {
+    background: var(--gradient-splash);
+  }
+
+  .shadow-subtle {
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .btn-primary {
+    @apply px-4 py-2 rounded-lg font-medium transition-smooth hover:opacity-90 active:scale-95;
+    background: var(--gradient-warm);
+    color: oklch(0.98 0 0);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-medium transition-smooth hover:bg-opacity-90 active:scale-95;
+  }
+
+  .card-elevated {
+    @apply bg-card text-card-foreground rounded-xl border border-border transition-smooth;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-elevated:hover {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .pulse-ring {
+    animation: pulse-ring 2s infinite;
+  }
+
+  .float-subtle {
+    animation: float-subtle 3s ease-in-out infinite;
+  }
+
+  .fade-in-up {
+    animation: fade-in-up 0.6s ease-out both;
+  }
+
+  .scale-in {
+    animation: scale-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  }
+
+  .slide-in-up {
+    animation: slide-in-up 0.6s ease-out both;
+  }
+
+  /* Page transition wrapper */
+  .page-transition {
+    animation: fade-in-up 0.35s ease-out both;
+  }
+
+  /* Gold text utility */
+  .text-gold {
+    color: oklch(var(--gold));
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 20px oklch(var(--primary) / 0.4);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px oklch(var(--accent) / 0.4);
+  }
+}
