@@ -13,17 +13,27 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
+          
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
+      # تم تعديل هذا السطر ليبحث عن ملف pubspec.yaml في أي مكان داخل المستودع
       - name: Get dependencies
-        # استبدل YourFolderName باسم المجلد الموجود داخل جيت هاب
-        run: flutter pub get
-        working-directory: ./YourFolderName 
+        run: |
+          cd $(find . -name pubspec.yaml -exec dirname {} \;)
+          flutter pub get
 
+      # تم تعديل هذا السطر ليبحث عن المجلد ويبني التطبيق بداخله تلقائياً
       - name: Build APK
-        run: flutter build apk --debug
-        working-directory: ./YourFolderName
+        run: |
+          PROJECT_PATH=$(find . -name pubspec.yaml -exec dirname {} \;)
+          cd $PROJECT_PATH
+          flutter build apk --debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: fastdeliver-apk
+          path: "**/build/app/outputs/flutter-apk/app-debug.apk"
